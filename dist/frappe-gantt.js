@@ -581,7 +581,7 @@ class Bar {
     }
 
     draw_resize_handles() {
-        if (this.invalid) return;
+        if (this.invalid || !this.gantt.options.enableResize) return;
 
         const bar = this.$bar;
         const handle_width = 8;
@@ -1110,7 +1110,9 @@ class Gantt {
             date_format: 'YYYY-MM-DD',
             popup_trigger: 'click',
             custom_popup_html: null,
-            language: 'en'
+            language: 'en',
+            enableDrag: true,
+            enableResize: true
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -1668,6 +1670,9 @@ class Gantt {
     }
 
     bind_bar_events() {
+        if(!this.options.enableDrag){
+            return false;
+        }
         let is_dragging = false;
         let x_on_start = 0;
         let y_on_start = 0;
