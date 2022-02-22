@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Simple Gantt</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			background: #ccc;
+		}
+
+		.container {
+			width: 80%;
+			margin: 0 auto;
+		}
+
+		/* custom class */
+		.gantt .bar-milestone .bar {
+			fill: tomato;
+		}
+	</style>
+	<link rel="stylesheet" href="dist/frappe-gantt.css" />
+	<script src="dist/frappe-gantt.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<h2>Interactive Gantt Chart entirely made in SVG!</h2>
+		<div class="gantt-target"></div>
+		<div class="card">
+			Add Task
+			New Task <input id="inputTask" type="text" />
+			Dependency
+			<select id="SelectBox">
+				<option value="Task 0">Task 0</option>
+				<option value="Task 1">Task 1</option>
+				<option value="Task 2">Task 2</option>
+				<option value="Task 3">Task 3</option>
+			</select>
+			Order
+			<select id="order">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			</select>
+			<input type="button" id="newTask" value="Add new Task" />
+			<hr />
+			Double click task to edit (readonly atm)<br/>
+			Task Name: <span id="name"></span><br/>
+			Start: <span id="start"></span><br/>
+			End: <span id="end"></span><br/>
+			Progress: <span id="progress"></span><br/>
+			dependencies: <span id="dependencies"></span>
+
+		</div>
+	</div>
+	<script>
+		var tasks = [
+			{
+				start: '2022-02-20',
+				end: '2022-02-25',
+				name: 'Redesign website',
+				id: "Task 0",
+				progress: 90
+			},
+			{
+				start: '2022-02-23',
+				end: '2022-02-28',
+				name: 'Write new content',
+				id: "Task 1",
+				progress: 5,
+				dependencies: 'Task 0'
+			},
+			{
+				start: '2022-02-27',
+				end: '2022-03-02',
+				name: 'Apply new styles',
+				id: "Task 2",
+				progress: 10,
+				dependencies: 'Task 1'
+			},
+			{
+				start: '2022-03-01',
+				end: '2022-03-05',
+				name: 'Review',
+				id: "Task 3",
+				progress: 5,
+				dependencies: 'Task 2'
+			},
+			{
+				start: '2022-03-04',
+				end: '2022-03-10',
+				name: 'Deploy',
+				id: "Task 4",
+				progress: 1,
+				dependencies: 'Task 2'
+			},
+			{
+				start: '2022-03-09',
+				end: '2022-03-11',
+				name: 'Go Live!',
+				id: "Task 5",
+				progress: 0,
+				dependencies: 'Task 4',
+				custom_class: 'bar-milestone'
+			},
+			{
+				start: '2022-02-20',
+				end: '2022-03-26',
+				name: 'Long term task',
+				id: "Task 6",
+				progress: 50
+			}
+		]
+
+		var options = {
+			on_click: function (task) {
+				document.getElementById("start").textContent = task.start
+				document.getElementById("end").textContent = task.end
+				document.getElementById("progress").textContent = task.progress
+				document.getElementById("dependencies").textContent = task.dependencies
+				document.getElementById("name").textContent = task.name
+			},
+			on_date_change: function (task, start, end) {
+				console.log(task, start, end);
+			},
+			on_progress_change: function (task, progress) {
+				console.log(task, progress);
+			},
+			on_view_change: function (mode) {
+				console.log(mode);
+			},
+			view_modes: ['Quarter Day', 'Half Day', 'Day', 'Week', 'Month'],
+			language: 'en',
+			enableDrag: true,
+			enableResize: true
+		}
+
+		var gantt_chart = new Gantt(".gantt-target", tasks, options);
+
+		var div = document.getElementById('newTask');
+		div.addEventListener('click', function (e) {
+			var textBox = document.getElementById('inputTask')
+			var selectBox = document.getElementById('SelectBox')
+			var orderBox = document.getElementById('order')
+	
+			tasks.splice(orderBox.value, 0, {
+				start: '2018-10-01',
+				end: '2018-10-12',
+				name: textBox.value,
+				id: textBox.value,
+				progress: 80, 
+				dependencies: selectBox.value
+			})
+			gantt_chart.refresh(tasks);
+			gantt_chart.refresh(options);
+		});
+
+		console.log(gantt_chart);
+	</script>
+</body>
+
+</html>
