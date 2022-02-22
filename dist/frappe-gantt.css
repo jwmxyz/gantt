@@ -22,7 +22,7 @@
     stroke-width: 0.4; }
 
 .gantt .today-highlight {
-  fill: #fcf8e3;
+  fill: #fff1a5;
   opacity: 0.5; }
 
 .gantt .arrow {
@@ -31,14 +31,14 @@
   stroke-width: 1.4; }
 
 .gantt .bar {
-  fill: #b8c2cc;
-  stroke: #8D99A6;
+  fill: #6e767e;
+  stroke: #0c0d0e;
   stroke-width: 0;
   transition: stroke-width .3s ease;
   user-select: none; }
 
 .gantt .bar-progress {
-  fill: #a3a3ff; }
+  fill: #006e51; }
 
 .gantt .bar-invalid {
   fill: transparent;
@@ -71,14 +71,14 @@
   .gantt .bar-wrapper:hover .bar {
     fill: #a9b5c1; }
   .gantt .bar-wrapper:hover .bar-progress {
-    fill: #8a8aff; }
+    fill: #006e51; }
   .gantt .bar-wrapper:hover .handle {
     visibility: visible;
     opacity: 1; }
   .gantt .bar-wrapper.active .bar {
     fill: #a9b5c1; }
   .gantt .bar-wrapper.active .bar-progress {
-    fill: #8a8aff; }
+    fill: #006e51; }
 
 .gantt .lower-text, .gantt .upper-text {
   font-size: 12px;
@@ -106,7 +106,7 @@
     color: #959da5;
     border-radius: 3px; }
     .gantt-container .popup-wrapper .title {
-      border-bottom: 3px solid #a3a3ff;
+      border-bottom: 3px solid #006e51;
       padding: 10px; }
     .gantt-container .popup-wrapper .subtitle {
       padding: 10px;
