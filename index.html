@@ -31,7 +31,6 @@
 
 <body>
 	<div class="container-fluid">
-		<h2>Interactive Gantt Chart entirely made in SVG!</h2>
 		<div class="row g-0">
 			<div class="col-4 shadow">
 				<table class="table table-striped">
@@ -44,7 +43,17 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td>Top level task</td>
+							<td>tetst</td>
+							<td>6</td>
+						</tr>
+						<tr>
 							<td>Redesign website</td>
+							<td>tetst</td>
+							<td>6</td>
+						</tr>
+						<tr>
+							<td>Top level task</td>
 							<td>tetst</td>
 							<td>6</td>
 						</tr>
@@ -52,6 +61,11 @@
 							<td>Write new content</td>
 							<td>tetst</td>
 							<td>44</td>
+						</tr>
+						<tr>
+							<td>Top level task</td>
+							<td>tetst</td>
+							<td>6</td>
 						</tr>
 						<tr>
 							<td>Apply new styles</td>
@@ -118,9 +132,24 @@
 			{
 				start: '2022-02-20',
 				end: '2022-02-25',
+				name: 'Top level task',
+				id: "Task 000",
+				progress: 90,
+				type: "grouping"
+			},
+			{
+				start: '2022-02-20',
+				end: '2022-02-25',
 				name: 'Redesign website',
 				id: "Task 0",
 				progress: 90
+			},
+			{
+				start: '2022-02-20',
+				end: '2022-02-25',
+				name: 'Top level task',
+				id: "Task 001",
+				progress: 90,
 			},
 			{
 				start: '2022-02-23',
@@ -129,6 +158,13 @@
 				id: "Task 1",
 				progress: 5,
 				dependencies: 'Task 0'
+			},
+			{
+				start: '2022-02-20',
+				end: '2022-02-25',
+				name: 'Top level task',
+				id: "Task 011",
+				progress: 90,
 			},
 			{
 				start: '2022-02-27',
