@@ -141,7 +141,7 @@ export default class Bar {
             x: bar.getX() + 1,
             y: bar.getY() + 1,
             width: handle_width,
-            height: this.height/2 - 2,
+            height: this.height / 2 - 2,
             rx: this.corner_radius,
             ry: this.corner_radius,
             class: 'handle left',
@@ -199,7 +199,11 @@ export default class Bar {
     show_popup() {
         if (this.gantt.bar_being_dragged) return;
 
-        const start_date = date_utils.format(this.task._start, 'MMM D', this.gantt.options.language);
+        const start_date = date_utils.format(
+            this.task._start,
+            'MMM D',
+            this.gantt.options.languageß
+        );
         const end_date = date_utils.format(
             date_utils.add(this.task._end, -1, 'second'),
             'MMM D',

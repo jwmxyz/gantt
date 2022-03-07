@@ -393,7 +393,10 @@ export default class Gantt {
                 tick_class += ' thick';
             }
             // thick ticks for quarters
-            if (this.view_is(VIEW_MODE.MONTH) && (date.getMonth() + 1) % 3 === 0) {
+            if (
+                this.view_is(VIEW_MODE.MONTH) &&
+                (date.getMonth() + 1) % 3 === 0
+            ) {
                 tick_class += ' thick';
             }
 
@@ -646,7 +649,7 @@ export default class Gantt {
     }
 
     bind_bar_events() {
-        if(!this.options.enableDrag){
+        if (!this.options.enableDrag) {
             return false;
         }
         let is_dragging = false;
@@ -780,7 +783,6 @@ export default class Gantt {
         $.on(this.$svg, 'mousemove', e => {
             if (!is_resizing) return;
             let dx = e.offsetX - x_on_start;
-            let dy = e.offsetY - y_on_start;
 
             if (dx > $bar_progress.max_dx) {
                 dx = $bar_progress.max_dx;
@@ -788,6 +790,14 @@ export default class Gantt {
             if (dx < $bar_progress.min_dx) {
                 dx = $bar_progress.min_dx;
             }
+
+            console.log(
+                $bar.width.baseVal.value,
+                $bar_progress.owidth + dx,
+                Math.round(
+                    ($bar_progress.owidth + dx) / $bar.width.baseVal.value * 10
+                ) * 10
+            );
 
             const $handle = bar.$handle_progress;
             $.attr($bar_progress, 'width', $bar_progress.owidth + dx);
