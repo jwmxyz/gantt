@@ -78,15 +78,17 @@ export default class Gantt {
             column_width: 30,
             step: 24,
             view_modes: [...Object.values(VIEW_MODE)],
-            bar_height: 20,
-            bar_corner_radius: 3,
+            bar_height: 40,
+            bar_corner_radius: 0,
             arrow_curve: 5,
-            padding: 18,
+            padding: 10,
             view_mode: 'Day',
             date_format: 'YYYY-MM-DD',
             popup_trigger: 'click',
             custom_popup_html: null,
-            language: 'en'
+            language: 'en',
+            enableDrag: true,
+            enableResize: true
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -235,8 +237,8 @@ export default class Gantt {
             this.gantt_start = date_utils.add(this.gantt_start, -2, 'year');
             this.gantt_end = date_utils.add(this.gantt_end, 2, 'year');
         } else {
-            this.gantt_start = date_utils.add(this.gantt_start, -1, 'month');
-            this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
+            this.gantt_start = date_utils.add(this.gantt_start, -3, 'day');
+            this.gantt_end = date_utils.add(this.gantt_end, 7, 'month');
         }
     }
 
@@ -391,7 +393,10 @@ export default class Gantt {
                 tick_class += ' thick';
             }
             // thick ticks for quarters
-            if (this.view_is(VIEW_MODE.MONTH) && (date.getMonth() + 1) % 3 === 0) {
+            if (
+                this.view_is(VIEW_MODE.MONTH) &&
+                (date.getMonth() + 1) % 3 === 0
+            ) {
                 tick_class += ' thick';
             }
 
@@ -644,6 +649,9 @@ export default class Gantt {
     }
 
     bind_bar_events() {
+        if (!this.options.enableDrag) {
+            return false;
+        }
         let is_dragging = false;
         let x_on_start = 0;
         let y_on_start = 0;
@@ -775,7 +783,6 @@ export default class Gantt {
         $.on(this.$svg, 'mousemove', e => {
             if (!is_resizing) return;
             let dx = e.offsetX - x_on_start;
-            let dy = e.offsetY - y_on_start;
 
             if (dx > $bar_progress.max_dx) {
                 dx = $bar_progress.max_dx;
@@ -783,6 +790,14 @@ export default class Gantt {
             if (dx < $bar_progress.min_dx) {
                 dx = $bar_progress.min_dx;
             }
+
+            console.log(
+                $bar.width.baseVal.value,
+                $bar_progress.owidth + dx,
+                Math.round(
+                    ($bar_progress.owidth + dx) / $bar.width.baseVal.value * 10
+                ) * 10
+            );
 
             const $handle = bar.$handle_progress;
             $.attr($bar_progress, 'width', $bar_progress.owidth + dx);

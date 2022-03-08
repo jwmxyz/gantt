@@ -121,7 +121,7 @@ export default class Bar {
     }
 
     draw_resize_handles() {
-        if (this.invalid) return;
+        if (this.invalid || !this.gantt.options.enableResize) return;
 
         const bar = this.$bar;
         const handle_width = 8;
@@ -130,7 +130,7 @@ export default class Bar {
             x: bar.getX() + bar.getWidth() - 9,
             y: bar.getY() + 1,
             width: handle_width,
-            height: this.height - 2,
+            height: this.height/2 - 2,
             rx: this.corner_radius,
             ry: this.corner_radius,
             class: 'handle right',
@@ -141,7 +141,7 @@ export default class Bar {
             x: bar.getX() + 1,
             y: bar.getY() + 1,
             width: handle_width,
-            height: this.height - 2,
+            height: this.height / 2 - 2,
             rx: this.corner_radius,
             ry: this.corner_radius,
             class: 'handle left',
@@ -199,7 +199,11 @@ export default class Bar {
     show_popup() {
         if (this.gantt.bar_being_dragged) return;
 
-        const start_date = date_utils.format(this.task._start, 'MMM D', this.gantt.options.language);
+        const start_date = date_utils.format(
+            this.task._start,
+            'MMM D',
+            this.gantt.options.languageß
+        );
         const end_date = date_utils.format(
             date_utils.add(this.task._end, -1, 'second'),
             'MMM D',
@@ -267,7 +271,7 @@ export default class Bar {
     progress_changed() {
         const new_progress = this.compute_progress();
         this.task.progress = new_progress;
-        this.gantt.trigger_event('progress_change', [this.task, new_progress]);
+        this.gantt.trigger_event('progress_change', [this.task, Math.round(new_progress / 10) * 10]);
     }
 
     set_action_completed() {
