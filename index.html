@@ -20,7 +20,7 @@
 			fill: tomato;
 		}
 	</style>
-	<script src="dist/frappe-gantt.js"></script>ß
+	<script src="dist/frappe-gantt.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -39,58 +39,69 @@
 							<th>Task Name</th>
 							<th>Assigned to</th>
 							<th>Hours</th>
+							<th>%age</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Top level task</td>ß
+						<tr id="1">
+							<td>Top level task</td>
 							<td>tetst</td>
 							<td>6</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="2">
 							<td>Redesign website</td>
 							<td>tetst</td>
 							<td>6</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="3">
 							<td>Top level task</td>
 							<td>tetst</td>
 							<td>6</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="4">
 							<td>Write new content</td>
 							<td>tetst</td>
 							<td>44</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="5">
 							<td>Top level task</td>
 							<td>tetst</td>
 							<td>6</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="6">
 							<td>Apply new styles</td>
 							<td>tetst</td>
 							<td>3</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="7">
 							<td>Review</td>
 							<td>tetst</td>
 							<td>5</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="8">
 							<td>Deploy</td>
 							<td>tetst</td>
 							<td>11</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="9">
 							<td>Go Live</td>
 							<td>tetst</td>
 							<td>44</td>
+							<td>0</td>
 						</tr>
-						<tr>
+						<tr id="10">
 							<td>Long term task</td>
 							<td>tetst</td>
 							<td>55</td>
+							<td>0</td>
 						</tr>
 					</tbody>
 				</table>
@@ -133,7 +144,7 @@
 				start: '2022-02-20',
 				end: '2022-02-25',
 				name: 'Top level task',
-				id: "Task 000",
+				id: "1",
 				progress: 90,
 				type: "grouping"
 			},
@@ -141,69 +152,69 @@
 				start: '2022-02-20',
 				end: '2022-02-25',
 				name: 'Redesign website',
-				id: "Task 0",
+				id: "2",
 				progress: 90
 			},
 			{
 				start: '2022-02-20',
 				end: '2022-02-25',
 				name: 'Top level task',
-				id: "Task 001",
+				id: "3",
 				progress: 90,
 			},
 			{
 				start: '2022-02-23',
 				end: '2022-02-28',
 				name: 'Write new content',
-				id: "Task 1",
+				id: "4",
 				progress: 5,
-				dependencies: 'Task 0'
+				dependencies: '1'
 			},
 			{
 				start: '2022-02-20',
 				end: '2022-02-25',
 				name: 'Top level task',
-				id: "Task 011",
+				id: "5",
 				progress: 90,
 			},
 			{
 				start: '2022-02-27',
 				end: '2022-03-02',
 				name: 'Apply new styles',
-				id: "Task 2",
+				id: "6",
 				progress: 10,
-				dependencies: 'Task 1'
+				dependencies: '1'
 			},
 			{
 				start: '2022-03-01',
 				end: '2022-03-05',
 				name: 'Review',
-				id: "Task 3",
+				id: "7",
 				progress: 5,
-				dependencies: 'Task 2'
+				dependencies: '3'
 			},
 			{
 				start: '2022-03-04',
 				end: '2022-03-10',
 				name: 'Deploy',
-				id: "Task 4",
+				id: "8",
 				progress: 1,
-				dependencies: 'Task 2'
+				dependencies: '2'
 			},
 			{
 				start: '2022-03-09',
 				end: '2022-03-11',
 				name: 'Go Live!',
-				id: "Task 5",
+				id: "9",
 				progress: 0,
-				dependencies: 'Task 4',
+				dependencies: '4',
 				custom_class: 'bar-milestone'
 			},
 			{
 				start: '2022-02-20',
 				end: '2022-03-26',
 				name: 'Long term task',
-				id: "Task 6",
+				id: "10",
 				progress: 50
 			}
 		]
@@ -217,10 +228,13 @@
 				document.getElementById("name").textContent = task.name
 			},
 			on_date_change: function (task, start, end) {
-				console.log(task, start, end);
+				var cell = document.getElementById(task.id).cells[document.getElementById(task.id).cells.length - 2]
+				cell.innerHTML = getBusinessDatesCount(start, end);
 			},
 			on_progress_change: function (task, progress) {
-				console.log(task, progress);
+				var cell = document.getElementById(task.id).cells[document.getElementById(task.id).cells.length - 1]
+				cell.innerHTML = progress;
+				//DO HTML CALL
 			},
 			on_view_change: function (mode) {
 				console.log(mode);
@@ -228,7 +242,18 @@
 			view_modes: ['Quarter Day', 'Half Day', 'Day', 'Week', 'Month'],
 			language: 'en',
 			enableDrag: true,
-			enableResize: true
+			enableResize: true,
+		}
+
+		function getBusinessDatesCount(startDate, endDate) {
+			let count = 0;
+			const curDate = new Date(startDate.getTime());
+			while (curDate <= endDate) {
+				const dayOfWeek = curDate.getDay();
+				if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
+				curDate.setDate(curDate.getDate() + 1);
+			}
+			return count * 7;
 		}
 
 		var gantt_chart = new Gantt(".gantt-target", tasks, options);

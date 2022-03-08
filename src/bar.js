@@ -271,7 +271,7 @@ export default class Bar {
     progress_changed() {
         const new_progress = this.compute_progress();
         this.task.progress = new_progress;
-        this.gantt.trigger_event('progress_change', [this.task, new_progress]);
+        this.gantt.trigger_event('progress_change', [this.task, Math.round(new_progress / 10) * 10]);
     }
 
     set_action_completed() {
